@@ -1,0 +1,48 @@
+==> Common ways to troubleshoot your deploy: https://render.com/docs/troubleshooting-deploys
+==> Build failed 😞
+    at Pipe.onStreamRead (node:internal/stream_base_commons:189:23)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at addChunk (node:internal/streams/readable:561:12)
+    at Socket.emit (node:events:518:28)
+    at Socket.readFromStdout (/opt/render/project/src/node_modules/vite/node_modules/esbuild/lib/main.js:600:7)
+    at handleIncomingPacket (/opt/render/project/src/node_modules/vite/node_modules/esbuild/lib/main.js:677:12)
+    at responseCallbacks.<computed> (/opt/render/project/src/node_modules/vite/node_modules/esbuild/lib/main.js:622:9)
+    at /opt/render/project/src/node_modules/vite/node_modules/esbuild/lib/main.js:755:50
+    at failureErrorWithLog (/opt/render/project/src/node_modules/vite/node_modules/esbuild/lib/main.js:1472:15)
+   |   ^
+107|  }
+106|    );
+105|      </div>
+Unexpected end of file
+file: /opt/render/project/src/client/src/pages/Admin.tsx:107:1
+/opt/render/project/src/client/src/pages/Admin.tsx:107:1: ERROR: Unexpected end of file
+[vite:esbuild] Transform failed with 1 error:
+error during build:
+x Build failed in 848ms
+✓ 42 modules transformed.
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+  npx update-browserslist-db@latest
+Browserslist: browsers data (caniuse-lite) is 6 months old. Please run:
+transforming...
+vite v5.4.14 building for production...
+> vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist
+> rest-express@1.0.0 build
+Run `npm audit` for details.
+  npm audit fix --force
+To address all issues (including breaking changes), run:
+  npm audit fix
+To address issues that do not require attention, run:
+7 moderate severity vulnerabilities
+  run `npm fund` for details
+64 packages are looking for funding
+up to date, audited 486 packages in 2s
+==> Running build command 'npm install; npm run build'...
+==> Docs on specifying a bun version: https://render.com/docs/bun-version
+==> Using Bun version 1.1.0 (default)
+==> Docs on specifying a Node.js version: https://render.com/docs/node-version
+==> Using Node.js version 22.14.0 (default)
+==> Transferred 225MB in 8s. Extraction took 4s.
+==> Downloading cache...
+==> Checking out commit f566a45ae4e6ac278acec7ecb91fe0279c2032d0 in branch main
+==> Cloning from https://github.com/RennszWebSite/StreamerCentral
