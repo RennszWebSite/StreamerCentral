@@ -34,22 +34,22 @@ export default function Admin() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen" style={{ backgroundColor: 'var(--dark-bg)' }}>
       <div className="container mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 className="text-3xl font-heading font-bold text-primary">Admin Panel</h1>
-            <p className="text-gray-500">Manage your website content and settings</p>
+            <h1 className="text-3xl font-heading font-bold gold-gradient inline-block">Admin Panel</h1>
+            <p className="text-gold-light">Manage your website content and settings</p>
           </div>
           <div className="flex items-center gap-4">
             <Button 
-              variant="outline" 
+              className="bg-black border border-gold/50 text-gold hover:bg-gold hover:text-black"
               onClick={() => setLocation('/')}
             >
               View Site
             </Button>
             <Button 
-              variant="destructive" 
+              className="bg-black border border-red-800/50 text-red-400 hover:bg-red-950/30" 
               onClick={handleLogout}
             >
               Logout
@@ -58,10 +58,10 @@ export default function Admin() {
         </div>
 
         <Tabs defaultValue="stream" className="w-full">
-          <TabsList className="grid w-full grid-cols-3 mb-8">
-            <TabsTrigger value="stream">Live Stream</TabsTrigger>
-            <TabsTrigger value="announcements">Announcements</TabsTrigger>
-            <TabsTrigger value="theme">Theme Settings</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-3 mb-8 bg-black/50 border border-gold/30">
+            <TabsTrigger value="stream" className="data-[state=active]:bg-gold data-[state=active]:text-black">Live Stream</TabsTrigger>
+            <TabsTrigger value="announcements" className="data-[state=active]:bg-gold data-[state=active]:text-black">Announcements</TabsTrigger>
+            <TabsTrigger value="theme" className="data-[state=active]:bg-gold data-[state=active]:text-black">Theme Settings</TabsTrigger>
           </TabsList>
           
           <TabsContent value="stream">
