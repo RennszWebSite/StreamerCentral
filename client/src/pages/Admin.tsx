@@ -1,4 +1,3 @@
-
 import { useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useLocation } from 'wouter';
@@ -12,9 +11,8 @@ import { useToast } from '@/hooks/use-toast';
 export default function Admin() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
-  const secretKey = window.location.pathname.endsWith('/admin') && window.location.hostname === 'rennsz.com';
-  const queryKey = new URLSearchParams(window.location.search).get('key');
-  const isAdmin = secretKey || queryKey === 'X2k9P#mN$vL5qR8@jH3wY7*zC4';
+  const secretKey = new URLSearchParams(window.location.search).get('key');
+  const isAdmin = secretKey === 'admin_secret_123';
 
   useEffect(() => {
     if (!isAdmin) {
@@ -65,15 +63,15 @@ export default function Admin() {
             <TabsTrigger value="announcements" className="data-[state=active]:bg-gold data-[state=active]:text-black">Announcements</TabsTrigger>
             <TabsTrigger value="theme" className="data-[state=active]:bg-gold data-[state=active]:text-black">Theme Settings</TabsTrigger>
           </TabsList>
-          
+
           <TabsContent value="stream">
             <StreamControl />
           </TabsContent>
-          
+
           <TabsContent value="announcements">
             <AnnouncementManager />
           </TabsContent>
-          
+
           <TabsContent value="theme">
             <ThemeSettings />
           </TabsContent>
