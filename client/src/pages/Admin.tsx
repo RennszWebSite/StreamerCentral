@@ -13,23 +13,46 @@ export default function Admin() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
   const { isAuthenticated } = useAuth();
-  const secretKey = new URLSearchParams(window.location.search).get('key');
-  const isAdmin = isAuthenticated || secretKey === 'admin_secret_123';
+  const [password, setPassword] = useState('');
+  const [showPasswordPrompt, setShowPasswordPrompt] = useState(true);
+  
+  const isAdmin = isAuthenticated;
+  const ADMIN_PASSWORD = 'RennszAdmin2024!';
 
-  useEffect(() => {
-    if (!isAdmin) {
-      setLocation('/');
+  const handlePasswordSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (password === ADMIN_PASSWORD) {
+      setShowPasswordPrompt(false);
+    } else {
       toast({
         title: "Access denied",
-        description: "Invalid access key",
+        description: "Invalid password",
         variant: "destructive",
       });
     }
-  }, [isAdmin, setLocation, toast]);
+  };
 
-  if (!isAdmin) {
-    return null;
+  if (!isAdmin && showPasswordPrompt) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-black/95">
+        <form onSubmit={handlePasswordSubmit} className="w-full max-w-md p-8 border border-gold/30 rounded-lg">
+          <h2 className="text-2xl font-heading mb-6 gold-gradient">Admin Access</h2>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full p-2 mb-4 bg-black border border-gold/50 rounded text-white"
+            placeholder="Enter admin password"
+          />
+          <button type="submit" className="w-full p-2 bg-gold text-black rounded hover:bg-gold/90">
+            Access Admin Panel
+          </button>
+        </form>
+      </div>
+    );
   }
+
+  if (!isAdmin && !showPasswordPrompt) {
 
   const handleLogout = () => {
     setLocation('/');
