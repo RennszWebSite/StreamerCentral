@@ -1,19 +1,20 @@
+import React from "react";
 import { Switch, Route } from "wouter";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/Home";
 import Admin from "@/pages/Admin";
 import { useAuth } from "./contexts/AuthContext";
-import { useEffect } from "react";
 import { useTheme } from "./contexts/ThemeContext";
+import { useEffect } from "react";
 
 function App() {
-  // Get auth state from context
+  // Get auth context
   const { isAuthenticated } = useAuth();
   
-  // Get theme from context
+  // Get theme context
   const { theme } = useTheme();
   
-  // Apply theme variables to CSS
+  // Apply theme CSS variables
   useEffect(() => {
     if (theme) {
       document.documentElement.style.setProperty('--primary-color', theme.primaryColor);

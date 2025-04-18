@@ -4,6 +4,8 @@ import {
   settings, type Setting, type InsertSetting,
   type ThemeSettings, type StreamSetting
 } from "@shared/schema";
+import { db } from "./db";
+import { eq, desc } from "drizzle-orm";
 
 export interface IStorage {
   // Users
@@ -27,145 +29,190 @@ export interface IStorage {
   updateStreamSetting(setting: StreamSetting): Promise<void>;
 }
 
-export class MemStorage implements IStorage {
-  private users: Map<number, User>;
-  private announcementsStore: Map<number, Announcement>;
-  private settingsStore: Map<string, string>;
-  private userCurrentId: number;
-  private announcementCurrentId: number;
-
-  constructor() {
-    this.users = new Map();
-    this.announcementsStore = new Map();
-    this.settingsStore = new Map();
-    this.userCurrentId = 1;
-    this.announcementCurrentId = 1;
-    
-    // Initialize with admin user
-    this.createUser({ 
-      username: "admin", 
-      password: "Rennsz5842" 
-    });
-    
-    // Initialize with default settings
-    this.settingsStore.set("primaryColor", "#4A2C82");
-    this.settingsStore.set("secondaryColor", "#00A4BD");
-    this.settingsStore.set("accentColor", "#D4AF37");
-    this.settingsStore.set("currentTheme", "default");
-    this.settingsStore.set("activeStream", "rennsz");
-    
-    // Add some sample announcements
-    this.createAnnouncement({
-      title: "Thailand Trip Announcement!",
-      content: "Starting May 15th, we'll be streaming live from Thailand for two weeks! Join us as we explore Bangkok, Phuket, and Chiang Mai.",
-      isFeatured: true
-    });
-    
-    this.createAnnouncement({
-      title: "New Membership Tiers Available!",
-      content: "We've updated our membership tiers with new benefits and perks for our supporters.",
-      isFeatured: false
-    });
-    
-    this.createAnnouncement({
-      title: "Weekend Streams Schedule Update",
-      content: "Our weekend streams will now start at 2 PM EST instead of 3 PM. More time for adventures!",
-      isFeatured: false
-    });
-  }
-
+export class DatabaseStorage implements IStorage {
   // Users
   async getUser(id: number): Promise<User | undefined> {
-    return this.users.get(id);
+    const [user] = await db.select().from(users).where(eq(users.id, id));
+    return user || undefined;
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(
-      (user) => user.username === username,
-    );
+    const [user] = await db.select().from(users).where(eq(users.username, username));
+    return user || undefined;
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
-    const id = this.userCurrentId++;
-    const user: User = { ...insertUser, id };
-    this.users.set(id, user);
+    const [user] = await db
+      .insert(users)
+      .values(insertUser)
+      .returning();
     return user;
   }
   
   // Announcements
   async getAnnouncements(): Promise<Announcement[]> {
-    return Array.from(this.announcementsStore.values())
-      .sort((a, b) => (new Date(b.date).getTime() - new Date(a.date).getTime()));
+    return await db.select().from(announcements).orderBy(desc(announcements.date));
   }
   
   async getAnnouncementById(id: number): Promise<Announcement | undefined> {
-    return this.announcementsStore.get(id);
+    const [announcement] = await db.select().from(announcements).where(eq(announcements.id, id));
+    return announcement || undefined;
   }
   
   async createAnnouncement(announcement: InsertAnnouncement): Promise<Announcement> {
-    const id = this.announcementCurrentId++;
-    const newAnnouncement: Announcement = { 
-      ...announcement, 
-      id, 
-      date: new Date() 
-    };
-    this.announcementsStore.set(id, newAnnouncement);
+    const [newAnnouncement] = await db
+      .insert(announcements)
+      .values({
+        ...announcement,
+        date: new Date()
+      })
+      .returning();
     return newAnnouncement;
   }
   
   async updateAnnouncement(id: number, announcement: Partial<InsertAnnouncement>): Promise<Announcement | undefined> {
-    const existingAnnouncement = this.announcementsStore.get(id);
-    if (!existingAnnouncement) {
-      return undefined;
-    }
-    
-    const updatedAnnouncement = {
-      ...existingAnnouncement,
-      ...announcement
-    };
-    
-    this.announcementsStore.set(id, updatedAnnouncement);
-    return updatedAnnouncement;
+    const [updated] = await db
+      .update(announcements)
+      .set(announcement)
+      .where(eq(announcements.id, id))
+      .returning();
+    return updated || undefined;
   }
   
   async deleteAnnouncement(id: number): Promise<boolean> {
-    return this.announcementsStore.delete(id);
+    const result = await db
+      .delete(announcements)
+      .where(eq(announcements.id, id))
+      .returning();
+    return result.length > 0;
   }
   
   // Settings
   async getSetting(key: string): Promise<string | undefined> {
-    return this.settingsStore.get(key);
+    const [setting] = await db.select().from(settings).where(eq(settings.key, key));
+    return setting?.value;
   }
   
   async updateSetting(key: string, value: string): Promise<void> {
-    this.settingsStore.set(key, value);
+    // Try to update first
+    const updated = await db
+      .update(settings)
+      .set({ value })
+      .where(eq(settings.key, key))
+      .returning();
+    
+    // If no records were updated, insert a new one
+    if (updated.length === 0) {
+      await db.insert(settings).values({ key, value });
+    }
   }
   
   async getThemeSettings(): Promise<ThemeSettings> {
+    const primaryColor = await this.getSetting("primaryColor");
+    const secondaryColor = await this.getSetting("secondaryColor");
+    const accentColor = await this.getSetting("accentColor");
+    const currentTheme = await this.getSetting("currentTheme");
+    
+    // Create default theme if not found
+    if (!primaryColor || !secondaryColor || !accentColor || !currentTheme) {
+      const defaultTheme = {
+        primaryColor: "#4A2C82",
+        secondaryColor: "#00A4BD",
+        accentColor: "#D4AF37",
+        currentTheme: "default"
+      };
+      
+      // Save the default theme settings
+      await this.updateThemeSettings(defaultTheme);
+      return defaultTheme;
+    }
+    
     return {
-      primaryColor: this.settingsStore.get("primaryColor") || "#4A2C82",
-      secondaryColor: this.settingsStore.get("secondaryColor") || "#00A4BD",
-      accentColor: this.settingsStore.get("accentColor") || "#D4AF37",
-      currentTheme: this.settingsStore.get("currentTheme") || "default"
+      primaryColor,
+      secondaryColor,
+      accentColor,
+      currentTheme
     };
   }
   
   async updateThemeSettings(theme: ThemeSettings): Promise<void> {
-    this.settingsStore.set("primaryColor", theme.primaryColor);
-    this.settingsStore.set("secondaryColor", theme.secondaryColor);
-    this.settingsStore.set("accentColor", theme.accentColor);
-    this.settingsStore.set("currentTheme", theme.currentTheme);
+    await this.updateSetting("primaryColor", theme.primaryColor);
+    await this.updateSetting("secondaryColor", theme.secondaryColor);
+    await this.updateSetting("accentColor", theme.accentColor);
+    await this.updateSetting("currentTheme", theme.currentTheme);
   }
   
   async getStreamSetting(): Promise<StreamSetting> {
+    const activeStream = await this.getSetting("activeStream");
+    
+    if (!activeStream) {
+      const defaultStream: StreamSetting = {
+        activeStream: "rennsz"
+      };
+      
+      // Save the default stream setting
+      await this.updateStreamSetting(defaultStream);
+      return defaultStream;
+    }
+    
     return {
-      activeStream: (this.settingsStore.get("activeStream") as "rennsz" | "rennszino") || "rennsz"
+      activeStream: activeStream as "rennsz" | "rennszino"
     };
   }
   
   async updateStreamSetting(setting: StreamSetting): Promise<void> {
-    this.settingsStore.set("activeStream", setting.activeStream);
+    await this.updateSetting("activeStream", setting.activeStream);
   }
 }
 
-export const storage = new MemStorage();
+// Initialize the database with default data
+async function initializeDatabase() {
+  const storage = new DatabaseStorage();
+  
+  // Check if admin user exists
+  const adminUser = await storage.getUserByUsername("admin");
+  if (!adminUser) {
+    await storage.createUser({
+      username: "admin",
+      password: "Rennsz5842"
+    });
+    console.log("Created admin user");
+  }
+  
+  // Initialize theme settings
+  await storage.getThemeSettings();
+  
+  // Initialize stream settings
+  await storage.getStreamSetting();
+  
+  // Add sample announcements if none exist
+  const announcements = await storage.getAnnouncements();
+  if (announcements.length === 0) {
+    await storage.createAnnouncement({
+      title: "Thailand Trip Announcement!",
+      content: "Starting May 15th, we'll be streaming live from Thailand for two weeks! Join us as we explore Bangkok, Phuket, and Chiang Mai.",
+      isFeatured: true
+    });
+    
+    await storage.createAnnouncement({
+      title: "New Membership Tiers Available!",
+      content: "We've updated our membership tiers with new benefits and perks for our supporters.",
+      isFeatured: false
+    });
+    
+    await storage.createAnnouncement({
+      title: "Weekend Streams Schedule Update",
+      content: "Our weekend streams will now start at 2 PM EST instead of 3 PM. More time for adventures!",
+      isFeatured: false
+    });
+    
+    console.log("Added sample announcements");
+  }
+}
+
+export const storage = new DatabaseStorage();
+
+// Initialize the database with default data
+initializeDatabase().catch(error => {
+  console.error("Failed to initialize database:", error);
+});

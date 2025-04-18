@@ -1,8 +1,9 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { apiRequest } from '../lib/queryClient';
 import { ThemeSettings } from '@shared/schema';
 import { toast } from '@/hooks/use-toast';
 
+// Define theme context type
 interface ThemeContextType {
   theme: ThemeSettings | null;
   updateTheme: (newTheme: ThemeSettings) => Promise<void>;
@@ -10,8 +11,7 @@ interface ThemeContextType {
   error: string | null;
 }
 
-const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
-
+// Default theme settings
 const defaultTheme: ThemeSettings = {
   primaryColor: '#4A2C82',
   secondaryColor: '#00A4BD',
@@ -19,11 +19,21 @@ const defaultTheme: ThemeSettings = {
   currentTheme: 'default'
 };
 
+// Create context with default values
+const ThemeContext = createContext<ThemeContextType>({
+  theme: defaultTheme,
+  updateTheme: async () => {},
+  isLoading: false,
+  error: null
+});
+
+// Theme provider component
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setTheme] = useState<ThemeSettings | null>(null);
+  const [theme, setTheme] = useState<ThemeSettings | null>(defaultTheme);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  // Fetch theme on mount
   useEffect(() => {
     async function fetchTheme() {
       try {
@@ -49,6 +59,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     fetchTheme();
   }, []);
 
+  // Update theme function
   const updateTheme = async (newTheme: ThemeSettings) => {
     try {
       setIsLoading(true);
@@ -76,17 +87,22 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  // Create context value
+  const value = {
+    theme,
+    updateTheme,
+    isLoading,
+    error
+  };
+
   return (
-    <ThemeContext.Provider value={{ theme, updateTheme, isLoading, error }}>
+    <ThemeContext.Provider value={value}>
       {children}
     </ThemeContext.Provider>
   );
 }
 
+// Hook to use theme context
 export function useTheme() {
-  const context = useContext(ThemeContext);
-  if (context === undefined) {
-    throw new Error('useTheme must be used within a ThemeProvider');
-  }
-  return context;
+  return useContext(ThemeContext);
 }

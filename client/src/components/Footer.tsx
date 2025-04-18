@@ -10,10 +10,8 @@ export default function Footer({ onAdminClick }: FooterProps) {
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="flex items-center space-x-2 mb-4 md:mb-0">
-            <Link href="/">
-              <a className="flex items-center space-x-2">
-                <span className="text-xl font-heading font-bold">RENNSZ</span>
-              </a>
+            <Link href="/" className="flex items-center space-x-2">
+              <span className="text-xl font-heading font-bold">RENNSZ</span>
             </Link>
           </div>
           

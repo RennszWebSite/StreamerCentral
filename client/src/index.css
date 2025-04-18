@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  /* These variables will be overridden by theme settings from the API */
+  --primary-color: #4A2C82;
+  --secondary-color: #00A4BD;
+  --accent-color: #D4AF37;
+}
+
 @layer base {
   * {
     @apply border-border;
@@ -23,6 +30,39 @@
   .font-accent {
     font-family: 'Playfair Display', serif;
   }
+  
+  /* Custom color classes */
+  .bg-primary {
+    background-color: var(--primary-color);
+  }
+  
+  .bg-secondary {
+    background-color: var(--secondary-color);
+  }
+  
+  .bg-accent {
+    background-color: var(--accent-color);
+  }
+  
+  .text-primary {
+    color: var(--primary-color);
+  }
+  
+  .text-secondary {
+    color: var(--secondary-color);
+  }
+  
+  .text-accent {
+    color: var(--accent-color);
+  }
+  
+  .bg-dark {
+    background-color: #111827;
+  }
+  
+  .text-dark {
+    color: #111827;
+  }
 }
 
 @layer components {
@@ -31,7 +71,7 @@
   }
   
   .hero-overlay {
-    @apply bg-black/50;
+    @apply bg-gradient-to-b from-black/50 to-black/80;
   }
   
   .card-hover {
@@ -50,4 +90,11 @@
   .live-indicator {
     @apply animate-pulse;
   }
+}
+
+/* Twitch embed styles */
+iframe {
+  border: none;
+  border-radius: 0.5rem;
+  overflow: hidden;
 }

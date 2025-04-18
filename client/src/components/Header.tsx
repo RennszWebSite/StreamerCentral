@@ -13,10 +13,8 @@ export default function Header() {
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center py-4">
           <div className="flex items-center space-x-2">
-            <Link href="/">
-              <a className="flex items-center space-x-2">
-                <span className="text-2xl font-heading font-bold text-primary">RENNSZ</span>
-              </a>
+            <Link href="/" className="flex items-center space-x-2">
+              <span className="text-2xl font-heading font-bold text-primary">RENNSZ</span>
             </Link>
           </div>
           

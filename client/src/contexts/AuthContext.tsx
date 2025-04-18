@@ -1,15 +1,22 @@
-import { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode } from 'react';
 import { login as apiLogin } from '../lib/auth';
 import { toast } from "@/hooks/use-toast";
 
+// Define the context type
 interface AuthContextType {
   isAuthenticated: boolean;
   login: (username: string, password: string) => Promise<boolean>;
   logout: () => void;
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+// Create the context with a default value
+const AuthContext = createContext<AuthContextType>({
+  isAuthenticated: false,
+  login: async () => false,
+  logout: () => {}
+});
 
+// Provider component
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -50,17 +57,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     });
   };
 
+  // Create the value object
+  const value = {
+    isAuthenticated,
+    login,
+    logout
+  };
+
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+    <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
   );
 }
 
+// Hook to use the auth context
 export function useAuth() {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
+  return useContext(AuthContext);
 }

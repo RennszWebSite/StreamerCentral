@@ -1,10 +1,8 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 
 export default function HeroSection() {
   const [activeStream, setActiveStream] = useState<'rennsz' | 'rennszino'>('rennsz');
-  const twitchEmbedRef = useRef<HTMLDivElement>(null);
-  const [playerCreated, setPlayerCreated] = useState(false);
 
   // Fetch active stream setting from the server
   useEffect(() => {
@@ -22,38 +20,6 @@ export default function HeroSection() {
 
     fetchActiveStream();
   }, []);
-
-  // Initialize and update Twitch player
-  useEffect(() => {
-    if (!twitchEmbedRef.current || typeof window.Twitch === 'undefined') {
-      return;
-    }
-
-    // Clear previous embed if it exists
-    if (twitchEmbedRef.current.innerHTML !== '') {
-      twitchEmbedRef.current.innerHTML = '';
-    }
-
-    // Create new player
-    const options = {
-      width: '100%',
-      height: '100%',
-      channel: activeStream,
-      parent: window.location.hostname.split(':')[0],
-      autoplay: true,
-    };
-
-    try {
-      const player = new window.Twitch.Embed(twitchEmbedRef.current, options);
-      setPlayerCreated(true);
-      
-      player.addEventListener(window.Twitch.Embed.VIDEO_READY, () => {
-        console.log('Player is ready');
-      });
-    } catch (error) {
-      console.error('Failed to initialize Twitch player:', error);
-    }
-  }, [activeStream]);
 
   const switchToMainStream = () => {
     setActiveStream('rennsz');
@@ -81,23 +47,32 @@ export default function HeroSection() {
         </div>
         
         <div className="w-full max-w-5xl aspect-video bg-black rounded-lg shadow-2xl overflow-hidden">
-          {/* Twitch embed container */}
-          <div id="twitch-embed" ref={twitchEmbedRef} className="w-full h-full">
-            {!playerCreated && (
-              <div className="flex items-center justify-center h-full bg-gray-900">
-                <div className="text-center">
-                  <div className="inline-flex items-center px-3 py-1 rounded-full bg-red-600 text-white text-sm font-bold mb-4">
-                    <span className="w-2 h-2 bg-white rounded-full mr-2 live-indicator"></span>
-                    LOADING STREAM
-                  </div>
-                  <h3 className="text-2xl font-heading font-bold text-white">
-                    {activeStream === 'rennsz' 
-                      ? "Loading RENNSZ's IRL stream..." 
-                      : "Loading RENNSZINO's gaming stream..."}
-                  </h3>
-                </div>
-              </div>
-            )}
+          {/* Direct Twitch iframe embed */}
+          <div className="w-full h-full relative">
+            <div className="aspect-video w-full h-full">
+              <iframe
+                src={`https://player.twitch.tv/?channel=${activeStream}&parent=${window.location.hostname.split(':')[0]}&parent=replit.com&parent=replit.dev&parent=janeway.replit.dev`}
+                frameBorder="0"
+                allowFullScreen={true}
+                scrolling="no"
+                width="100%"
+                height="100%"
+                title={`${activeStream} Twitch stream`}
+                className="absolute inset-0 w-full h-full"
+              ></iframe>
+            </div>
+            
+            {/* Fallback link if iframe fails */}
+            <div className="absolute bottom-4 right-4">
+              <a
+                href={`https://twitch.tv/${activeStream}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block bg-primary hover:bg-primary/90 text-white text-sm font-bold py-1 px-3 rounded transition-colors shadow-lg"
+              >
+                Watch on Twitch
+              </a>
+            </div>
           </div>
         </div>
         

@@ -1,8 +1,9 @@
 import { pgTable, text, serial, integer, boolean, timestamp } from "drizzle-orm/pg-core";
+import { relations } from "drizzle-orm";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
-// Original users table
+// Users table
 export const users = pgTable("users", {
   id: serial("id").primaryKey(),
   username: text("username").notNull().unique(),
@@ -24,6 +25,7 @@ export const announcements = pgTable("announcements", {
   content: text("content").notNull(),
   isFeatured: boolean("is_featured").default(false),
   date: timestamp("date").defaultNow().notNull(),
+  userId: integer("user_id").references(() => users.id),
 });
 
 export const insertAnnouncementSchema = createInsertSchema(announcements).pick({
@@ -34,6 +36,18 @@ export const insertAnnouncementSchema = createInsertSchema(announcements).pick({
 
 export type InsertAnnouncement = z.infer<typeof insertAnnouncementSchema>;
 export type Announcement = typeof announcements.$inferSelect;
+
+// Relations
+export const usersRelations = relations(users, ({ many }) => ({
+  announcements: many(announcements)
+}));
+
+export const announcementsRelations = relations(announcements, ({ one }) => ({
+  user: one(users, {
+    fields: [announcements.userId],
+    references: [users.id]
+  })
+}));
 
 // Site settings table
 export const settings = pgTable("settings", {
