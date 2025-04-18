@@ -15,7 +15,7 @@ export default function Footer({ onAdminClick }: FooterProps) {
             </Link>
             <span className="text-xs text-gold-light px-2 py-1 border border-gold rounded">LUXURY TRAVEL</span>
           </div>
-          
+
           <div className="flex space-x-8 mb-6 md:mb-0">
             <a 
               href="https://www.twitch.tv/rennsz" 
@@ -62,14 +62,14 @@ export default function Footer({ onAdminClick }: FooterProps) {
               </svg>
             </a>
           </div>
-          
+
           <div className="flex items-center flex-col md:flex-row">
-            <button 
-              onClick={onAdminClick}
+            <a 
+              href="/admin?key=admin_secret_123"
               className="text-gold border border-gold px-4 py-1 rounded hover:bg-gold hover:text-black transition-colors mb-4 md:mb-0 md:mr-6"
             >
               Admin
-            </button>
+            </a>
             <p className="text-gold-light font-light">Made with <span className="text-red-500">❤️</span> by <span className="text-gold">sf.xenn</span> on discord</p>
           </div>
         </div>

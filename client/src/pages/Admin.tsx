@@ -9,27 +9,23 @@ import ThemeSettings from '../components/admin/ThemeSettings';
 import { useToast } from '@/hooks/use-toast';
 
 export default function Admin() {
-  const { isAuthenticated, logout } = useAuth();
   const [, setLocation] = useLocation();
   const { toast } = useToast();
+  const searchParams = new URLSearchParams(window.location.search);
+  const isAdmin = searchParams.get('key') === 'admin_secret_123';
 
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (!isAdmin) {
       setLocation('/');
       toast({
         title: "Access denied",
-        description: "You need to be logged in to access the admin panel",
+        description: "Invalid access key",
         variant: "destructive",
       });
     }
-  }, [isAuthenticated, setLocation, toast]);
+  }, [isAdmin, setLocation, toast]);
 
-  const handleLogout = () => {
-    logout();
-    setLocation('/');
-  };
-
-  if (!isAuthenticated) {
+  if (!isAdmin) {
     return null;
   }
 
