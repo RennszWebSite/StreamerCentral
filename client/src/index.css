@@ -67,6 +67,39 @@
     color: var(--accent-color);
   }
   
+  /* Gold theme colors */
+  .bg-gold {
+    background-color: var(--gold);
+  }
+  
+  .bg-gold-light {
+    background-color: var(--gold-light);
+  }
+  
+  .bg-gold-dark {
+    background-color: var(--gold-dark);
+  }
+  
+  .text-gold {
+    color: var(--gold);
+  }
+  
+  .text-gold-light {
+    color: var(--gold-light);
+  }
+  
+  .text-gold-dark {
+    color: var(--gold-dark);
+  }
+  
+  .border-gold {
+    border-color: var(--gold);
+  }
+  
+  .border-gold-dark {
+    border-color: var(--gold-dark);
+  }
+  
   .bg-dark {
     background-color: #111827;
   }

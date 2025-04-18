@@ -6,21 +6,22 @@ interface FooterProps {
 
 export default function Footer({ onAdminClick }: FooterProps) {
   return (
-    <footer className="bg-primary text-white py-8">
+    <footer className="bg-black border-t border-gold text-white py-10">
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row justify-between items-center">
-          <div className="flex items-center space-x-2 mb-4 md:mb-0">
-            <Link href="/" className="flex items-center space-x-2">
-              <span className="text-xl font-heading font-bold">RENNSZ</span>
+          <div className="flex items-center space-x-3 mb-6 md:mb-0">
+            <Link href="/" className="flex items-center space-x-3">
+              <span className="text-2xl font-heading font-bold gold-gradient">RENNSZ</span>
             </Link>
+            <span className="text-xs text-gold-light px-2 py-1 border border-gold rounded">LUXURY TRAVEL</span>
           </div>
           
-          <div className="flex space-x-6 mb-6 md:mb-0">
+          <div className="flex space-x-8 mb-6 md:mb-0">
             <a 
               href="https://www.twitch.tv/rennsz" 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="text-white hover:text-accent transition-colors" 
+              className="text-white hover:text-gold transition-colors transform hover:-translate-y-1 duration-200" 
               aria-label="Twitch"
             >
               <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
@@ -31,7 +32,7 @@ export default function Footer({ onAdminClick }: FooterProps) {
               href="https://discord.gg/hUTXCaSdKC" 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="text-white hover:text-accent transition-colors" 
+              className="text-white hover:text-gold transition-colors transform hover:-translate-y-1 duration-200" 
               aria-label="Discord"
             >
               <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
@@ -42,7 +43,7 @@ export default function Footer({ onAdminClick }: FooterProps) {
               href="https://x.com/rennsz96?s=21" 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="text-white hover:text-accent transition-colors" 
+              className="text-white hover:text-gold transition-colors transform hover:-translate-y-1 duration-200" 
               aria-label="X / Twitter"
             >
               <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
@@ -53,7 +54,7 @@ export default function Footer({ onAdminClick }: FooterProps) {
               href="https://www.instagram.com/rennsz?igsh=MWhjYjg2ZDV4dHc0bw==" 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="text-white hover:text-accent transition-colors" 
+              className="text-white hover:text-gold transition-colors transform hover:-translate-y-1 duration-200" 
               aria-label="Instagram"
             >
               <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
@@ -62,14 +63,14 @@ export default function Footer({ onAdminClick }: FooterProps) {
             </a>
           </div>
           
-          <div className="flex items-center">
+          <div className="flex items-center flex-col md:flex-row">
             <button 
               onClick={onAdminClick}
-              className="text-white hover:text-accent mr-6 transition-colors"
+              className="text-gold border border-gold px-4 py-1 rounded hover:bg-gold hover:text-black transition-colors mb-4 md:mb-0 md:mr-6"
             >
               Admin
             </button>
-            <p className="text-white">Made with ❤️ by sf.xenn on discord</p>
+            <p className="text-gold-light font-light">Made with <span className="text-red-500">❤️</span> by <span className="text-gold">sf.xenn</span> on discord</p>
           </div>
         </div>
       </div>
