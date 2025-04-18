@@ -19,7 +19,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       const user = await storage.getUserByUsername(username);
-      console.log('User found:', { exists: !!user, username: user?.username });
+      console.log('Auth debug:', { 
+        userExists: !!user,
+        username: user?.username,
+        providedPassword: password,
+        storedPassword: user?.password,
+        passwordMatch: user?.password === password
+      });
       
       if (!user || user.password !== password) {
         console.log('Password mismatch');
