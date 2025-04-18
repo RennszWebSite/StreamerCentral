@@ -4,9 +4,18 @@
 
 :root {
   /* These variables will be overridden by theme settings from the API */
-  --primary-color: #4A2C82;
-  --secondary-color: #00A4BD;
+  --primary-color: #111111;
+  --secondary-color: #B8860B;
   --accent-color: #D4AF37;
+  
+  /* Dark luxury theme colors */
+  --dark-bg: #0a0a0a;
+  --dark-card: #151515;
+  --gold: #D4AF37;
+  --gold-light: #F0D78C;
+  --gold-dark: #B8860B;
+  --text-light: #F5F5F5;
+  --text-muted: #AAAAAA;
 }
 
 @layer base {
@@ -15,7 +24,9 @@
   }
 
   body {
-    @apply font-body antialiased bg-background text-foreground;
+    @apply font-body antialiased text-foreground;
+    background-color: var(--dark-bg);
+    color: var(--text-light);
   }
   
   /* Custom fonts */
@@ -97,4 +108,35 @@ iframe {
   border: none;
   border-radius: 0.5rem;
   overflow: hidden;
+}
+
+/* Luxury theme styles */
+.luxury-card {
+  background-color: var(--dark-card);
+  border: 1px solid var(--gold-dark);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.luxury-border {
+  border: 1px solid var(--gold);
+}
+
+.luxury-text {
+  color: var(--gold);
+}
+
+.luxury-gradient {
+  background: linear-gradient(135deg, var(--dark-bg) 0%, #333 100%);
+}
+
+.luxury-shadow {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+}
+
+.gold-gradient {
+  background: linear-gradient(to right, var(--gold-dark), var(--gold), var(--gold-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
 }

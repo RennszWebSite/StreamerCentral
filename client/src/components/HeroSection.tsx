@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
+import heroImage from '../assets/IMG_2456.png';
 
 export default function HeroSection() {
   const [activeStream, setActiveStream] = useState<'rennsz' | 'rennszino'>('rennsz');
@@ -34,7 +35,7 @@ export default function HeroSection() {
       <div 
         className="absolute inset-0 bg-cover bg-center" 
         style={{ 
-          backgroundImage: "url('https://images.unsplash.com/photo-1518684079-3c830dcef090?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80')" 
+          backgroundImage: `url(${heroImage})` 
         }}
       >
         <div className="absolute inset-0 hero-overlay"></div>
