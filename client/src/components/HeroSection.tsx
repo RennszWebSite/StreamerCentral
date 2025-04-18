@@ -81,7 +81,9 @@ export default function HeroSection() {
           <Button 
             onClick={switchToMainStream}
             className={`px-6 py-3 font-heading font-bold rounded-lg transition-colors ${
-              activeStream === 'rennsz' ? 'bg-primary hover:bg-primary/90' : 'bg-secondary hover:bg-secondary/90'
+              activeStream === 'rennsz' 
+                ? 'bg-gold text-black hover:bg-gold/90' 
+                : 'bg-black border border-gold text-gold hover:bg-gold hover:text-black'
             }`}
           >
             Watch IRL Stream
@@ -89,7 +91,9 @@ export default function HeroSection() {
           <Button 
             onClick={switchToGamingStream}
             className={`px-6 py-3 font-heading font-bold rounded-lg transition-colors ${
-              activeStream === 'rennszino' ? 'bg-primary hover:bg-primary/90' : 'bg-secondary hover:bg-secondary/90'
+              activeStream === 'rennszino' 
+                ? 'bg-gold text-black hover:bg-gold/90' 
+                : 'bg-black border border-gold text-gold hover:bg-gold hover:text-black'
             }`}
           >
             Watch Gaming Stream

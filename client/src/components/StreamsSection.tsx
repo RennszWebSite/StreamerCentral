@@ -1,35 +1,37 @@
 import { useState } from 'react';
+import img1 from '../assets/IMG_2456.png';
+import img2 from '../assets/IMG_2457.png';
 
 export default function StreamsSection() {
   return (
-    <section id="streams" className="py-16 bg-gray-50">
+    <section id="streams" className="py-16" style={{ backgroundColor: 'var(--dark-card)' }}>
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-accent font-bold text-primary mb-2">My Stream Channels</h2>
-          <div className="w-24 h-1 bg-accent mx-auto"></div>
-          <p className="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">Follow both channels to never miss a stream, whether I'm traveling the world or gaming at home!</p>
+          <h2 className="text-3xl md:text-4xl font-accent font-bold gold-gradient inline-block mb-2">My Stream Channels</h2>
+          <div className="w-24 h-0.5 bg-gold mx-auto mb-4"></div>
+          <p className="mt-4 text-lg text-gold-light max-w-3xl mx-auto">Follow both channels to never miss a stream, whether I'm traveling the world or gaming at home!</p>
         </div>
         
         <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
           {/* IRL Streaming Card */}
-          <div className="relative rounded-xl overflow-hidden shadow-xl transition-all duration-300 card-hover stream-card h-96">
+          <div className="relative rounded-xl overflow-hidden shadow-xl transition-all duration-300 hover:shadow-gold/20 border border-gold/30 h-96">
             <img 
-              src="https://images.unsplash.com/photo-1502920917128-1aa500764cbd?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" 
+              src={img1} 
               alt="IRL Streaming" 
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 flex flex-col justify-end p-6 z-10">
-              <span className="inline-flex items-center px-3 py-1 rounded-full bg-red-600 text-white text-sm font-bold mb-2 self-start">
-                <span className="w-2 h-2 bg-white rounded-full mr-2 live-indicator"></span>
-                IRL STREAM
+            <div className="absolute inset-0 flex flex-col justify-end p-6 z-10 bg-gradient-to-t from-black/90 to-black/30">
+              <span className="inline-flex items-center px-3 py-1 rounded-full bg-gold text-black text-xs font-bold mb-2 self-start uppercase tracking-wider">
+                <span className="w-2 h-2 bg-red-600 rounded-full mr-2 animate-pulse"></span>
+                IRL Stream
               </span>
-              <h3 className="text-2xl font-heading font-bold text-white">RENNSZ</h3>
-              <p className="text-gray-200 mt-1">Join me as I explore new destinations, cultures, and experiences around the world.</p>
+              <h3 className="text-2xl font-heading font-bold text-gold">RENNSZ</h3>
+              <p className="text-white mt-1">Join me as I explore new destinations, cultures, and experiences around the world.</p>
               <a 
                 href="https://www.twitch.tv/rennsz" 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="mt-4 inline-flex items-center px-5 py-2 bg-primary hover:bg-primary/90 text-white font-heading font-semibold rounded-lg transition-colors"
+                className="mt-4 inline-flex items-center px-5 py-2 bg-black border border-gold text-gold hover:bg-gold hover:text-black font-heading font-semibold rounded-lg transition-colors"
               >
                 <span>Follow on Twitch</span>
                 <svg className="w-4 h-4 ml-2" fill="currentColor" viewBox="0 0 24 24">
@@ -40,23 +42,23 @@ export default function StreamsSection() {
           </div>
           
           {/* Gaming/Chilling Card */}
-          <div className="relative rounded-xl overflow-hidden shadow-xl transition-all duration-300 card-hover stream-card h-96">
+          <div className="relative rounded-xl overflow-hidden shadow-xl transition-all duration-300 hover:shadow-gold/20 border border-gold/30 h-96">
             <img 
-              src="https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" 
+              src={img2} 
               alt="Gaming Stream" 
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 flex flex-col justify-end p-6 z-10">
-              <span className="inline-flex items-center px-3 py-1 rounded-full bg-secondary text-white text-sm font-bold mb-2 self-start">
-                GAMING STREAM
+            <div className="absolute inset-0 flex flex-col justify-end p-6 z-10 bg-gradient-to-t from-black/90 to-black/30">
+              <span className="inline-flex items-center px-3 py-1 rounded-full bg-gold text-black text-xs font-bold mb-2 self-start uppercase tracking-wider">
+                Gaming Stream
               </span>
-              <h3 className="text-2xl font-heading font-bold text-white">RENNSZINO</h3>
-              <p className="text-gray-200 mt-1">When I'm not traveling, join me for gaming sessions and chill conversations.</p>
+              <h3 className="text-2xl font-heading font-bold text-gold">RENNSZINO</h3>
+              <p className="text-white mt-1">When I'm not traveling, join me for gaming sessions and chill conversations.</p>
               <a 
                 href="https://www.twitch.tv/rennszino" 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="mt-4 inline-flex items-center px-5 py-2 bg-secondary hover:bg-secondary/90 text-white font-heading font-semibold rounded-lg transition-colors"
+                className="mt-4 inline-flex items-center px-5 py-2 bg-black border border-gold text-gold hover:bg-gold hover:text-black font-heading font-semibold rounded-lg transition-colors"
               >
                 <span>Follow on Twitch</span>
                 <svg className="w-4 h-4 ml-2" fill="currentColor" viewBox="0 0 24 24">
