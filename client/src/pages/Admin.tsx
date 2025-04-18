@@ -12,20 +12,22 @@ import { useToast } from '@/hooks/use-toast';
 export default function Admin() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
-  const { isAuthenticated } = useAuth();
+  const searchParams = new URLSearchParams(window.location.search);
+  const secretKey = searchParams.get('secret');
+  const isAdmin = secretKey === 'rennszadmin2024';
 
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (!isAdmin) {
       setLocation('/');
       toast({
         title: "Access denied",
-        description: "Please login as admin first",
+        description: "Invalid access key",
         variant: "destructive",
       });
     }
-  }, [isAuthenticated, setLocation, toast]);
+  }, [isAdmin, setLocation, toast]);
 
-  if (!isAuthenticated) {
+  if (!isAdmin) {
     return null;
   }
 
