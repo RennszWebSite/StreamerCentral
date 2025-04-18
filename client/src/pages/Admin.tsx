@@ -1,3 +1,4 @@
+
 import { useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useLocation } from 'wouter';
@@ -11,23 +12,26 @@ import { useToast } from '@/hooks/use-toast';
 export default function Admin() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
-  const searchParams = new URLSearchParams(window.location.search);
-  const isAdmin = searchParams.get('key') === 'admin_secret_123';
+  const { isAuthenticated } = useAuth();
 
   useEffect(() => {
-    if (!isAdmin) {
+    if (!isAuthenticated) {
       setLocation('/');
       toast({
         title: "Access denied",
-        description: "Invalid access key",
+        description: "Please login as admin first",
         variant: "destructive",
       });
     }
-  }, [isAdmin, setLocation, toast]);
+  }, [isAuthenticated, setLocation, toast]);
 
-  if (!isAdmin) {
+  if (!isAuthenticated) {
     return null;
   }
+
+  const handleLogout = () => {
+    setLocation('/');
+  };
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: 'var(--dark-bg)' }}>
