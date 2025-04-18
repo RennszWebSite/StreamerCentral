@@ -12,9 +12,9 @@ import { useToast } from '@/hooks/use-toast';
 export default function Admin() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
-  const searchParams = new URLSearchParams(window.location.search);
-  const secretKey = searchParams.get('key');
-  const isAdmin = secretKey === 'admin_secret_123';
+  const secretKey = window.location.pathname.endsWith('/admin') && window.location.hostname === 'rennsz.com';
+  const queryKey = new URLSearchParams(window.location.search).get('key');
+  const isAdmin = secretKey || queryKey === 'admin_secret_123';
 
   useEffect(() => {
     if (!isAdmin) {
