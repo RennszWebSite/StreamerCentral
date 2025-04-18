@@ -47,12 +47,12 @@ export default function ContactSection() {
   ];
 
   return (
-    <section id="contact" className="py-16 bg-white">
+    <section id="contact" className="py-16" style={{ backgroundColor: 'var(--dark-card)' }}>
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-accent font-bold text-primary mb-2">Connect With Me</h2>
-          <div className="w-24 h-1 bg-accent mx-auto"></div>
-          <p className="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">Follow me on social media and join my communities</p>
+          <h2 className="text-3xl md:text-4xl font-accent font-bold gold-gradient inline-block mb-2">Connect With Me</h2>
+          <div className="w-24 h-0.5 bg-gold mx-auto mb-4"></div>
+          <p className="mt-4 text-lg text-gold-light max-w-3xl mx-auto">Follow me on social media and join my communities</p>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
@@ -62,16 +62,16 @@ export default function ContactSection() {
               href={social.url} 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="flex flex-col items-center p-6 bg-gray-50 rounded-xl shadow-lg transition-all duration-300 card-hover"
+              className="flex flex-col items-center p-6 bg-black rounded-xl border border-gold/30 shadow-2xl transition-all duration-300 hover:-translate-y-2 hover:shadow-gold/20"
             >
               <div 
-                className="w-16 h-16 rounded-full flex items-center justify-center text-white mb-4"
-                style={{ backgroundColor: social.color }}
+                className="w-16 h-16 rounded-full flex items-center justify-center text-black mb-4 border-2 border-gold"
+                style={{ backgroundColor: 'var(--gold)' }}
               >
                 {social.icon}
               </div>
-              <h3 className="font-heading font-bold text-lg text-primary mb-2">{social.name}</h3>
-              <p className="text-center text-gray-600 text-sm">{social.description}</p>
+              <h3 className="font-heading font-bold text-lg text-gold mb-2">{social.name}</h3>
+              <p className="text-center text-gold-light text-sm">{social.description}</p>
             </a>
           ))}
         </div>
