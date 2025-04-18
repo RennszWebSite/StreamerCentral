@@ -14,7 +14,7 @@ export default function Admin() {
   const { toast } = useToast();
   const secretKey = window.location.pathname.endsWith('/admin') && window.location.hostname === 'rennsz.com';
   const queryKey = new URLSearchParams(window.location.search).get('key');
-  const isAdmin = secretKey || queryKey === 'admin_secret_123';
+  const isAdmin = secretKey || queryKey === 'X2k9P#mN$vL5qR8@jH3wY7*zC4';
 
   useEffect(() => {
     if (!isAdmin) {
