@@ -59,7 +59,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     fetchTheme();
   }, []);
 
-  // Update theme function
+  // Update theme function with localStorage persistence
   const updateTheme = async (newTheme: ThemeSettings) => {
     try {
       setIsLoading(true);
@@ -68,6 +68,9 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       if (!response.ok) {
         throw new Error('Failed to update theme settings');
       }
+      
+      // Store theme in localStorage
+      localStorage.setItem('theme', JSON.stringify(newTheme));
       
       setTheme(newTheme);
       toast({
@@ -86,6 +89,14 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       setIsLoading(false);
     }
   };
+
+  // Load theme from localStorage on mount
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      setTheme(JSON.parse(savedTheme));
+    }
+  }, []);
 
   // Create context value
   const value = {

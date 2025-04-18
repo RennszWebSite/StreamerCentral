@@ -81,10 +81,12 @@ export default function Admin() {
         </div>
 
         <Tabs defaultValue="stream" className="w-full">
-          <TabsList className="grid w-full grid-cols-3 mb-8 bg-black/50 border border-gold/30">
+          <TabsList className="grid w-full grid-cols-5 mb-8 bg-black/50 border border-gold/30">
             <TabsTrigger value="stream" className="data-[state=active]:bg-gold data-[state=active]:text-black">Live Stream</TabsTrigger>
             <TabsTrigger value="announcements" className="data-[state=active]:bg-gold data-[state=active]:text-black">Announcements</TabsTrigger>
             <TabsTrigger value="theme" className="data-[state=active]:bg-gold data-[state=active]:text-black">Theme Settings</TabsTrigger>
+            <TabsTrigger value="security" className="data-[state=active]:bg-gold data-[state=active]:text-black">Security</TabsTrigger>
+            <TabsTrigger value="socials" className="data-[state=active]:bg-gold data-[state=active]:text-black">Social Links</TabsTrigger>
           </TabsList>
 
           <TabsContent value="stream">
@@ -97,6 +99,14 @@ export default function Admin() {
 
           <TabsContent value="theme">
             <ThemeSettings />
+          </TabsContent>
+
+          <TabsContent value="security">
+            <SecuritySettings />
+          </TabsContent>
+
+          <TabsContent value="socials">
+            <SocialSettings />
           </TabsContent>
         </Tabs>
       </div>
