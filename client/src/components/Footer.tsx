@@ -64,12 +64,6 @@ export default function Footer({ onAdminClick }: FooterProps) {
           </div>
 
           <div className="flex items-center flex-col md:flex-row">
-            <a 
-              href="/admin?key=admin_secret_123"
-              className="text-gold border border-gold px-4 py-1 rounded hover:bg-gold hover:text-black transition-colors mb-4 md:mb-0 md:mr-6"
-            >
-              Admin
-            </a>
             <p className="text-gold-light font-light">Made with <span className="text-red-500">❤️</span> by <span className="text-gold">sf.xenn</span> on discord</p>
           </div>
         </div>
