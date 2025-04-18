@@ -27,9 +27,7 @@ function App() {
     <div className="app-container">
       <Switch>
         <Route path="/" component={Home} />
-        <Route path="/admin">
-          {isAuthenticated ? <Admin /> : <Home />}
-        </Route>
+        <Route path="/admin" component={Admin} />
         <Route component={NotFound} />
       </Switch>
     </div>
