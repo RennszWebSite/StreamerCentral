@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useLocation } from 'wouter';
+import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import StreamControl from '../components/admin/StreamControl';
@@ -11,8 +12,9 @@ import { useToast } from '@/hooks/use-toast';
 export default function Admin() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
+  const { isAuthenticated } = useAuth();
   const secretKey = new URLSearchParams(window.location.search).get('key');
-  const isAdmin = secretKey === 'admin_secret_123';
+  const isAdmin = isAuthenticated || secretKey === 'admin_secret_123';
 
   useEffect(() => {
     if (!isAdmin) {
