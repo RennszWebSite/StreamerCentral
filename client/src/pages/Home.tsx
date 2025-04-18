@@ -5,7 +5,6 @@ import HeroSection from '../components/HeroSection';
 import AnnouncementsSection from '../components/AnnouncementsSection';
 import StreamsSection from '../components/StreamsSection';
 import AboutSection from '../components/AboutSection';
-import GallerySection from '../components/GallerySection';
 import ContactSection from '../components/ContactSection';
 import AuthModal from '../components/AuthModal';
 import { useAuth } from '../contexts/AuthContext';
@@ -38,7 +37,6 @@ export default function Home() {
         <AnnouncementsSection />
         <StreamsSection />
         <AboutSection />
-        <GallerySection />
         <ContactSection />
       </main>
       

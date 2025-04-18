@@ -25,7 +25,6 @@ export default function Header() {
             <a href="#home" className="font-heading font-semibold text-gold hover:text-gold-light transition-colors">Home</a>
             <a href="#about" className="font-heading font-semibold text-white hover:text-gold transition-colors">About</a>
             <a href="#streams" className="font-heading font-semibold text-white hover:text-gold transition-colors">Streams</a>
-            <a href="#gallery" className="font-heading font-semibold text-white hover:text-gold transition-colors">Gallery</a>
             <a href="#announcements" className="font-heading font-semibold text-white hover:text-gold transition-colors">Announcements</a>
             <a href="#contact" className="font-heading font-semibold text-white hover:text-gold transition-colors">Contact</a>
           </nav>
@@ -47,7 +46,6 @@ export default function Header() {
           <a href="#home" className="block py-3 px-4 text-gold font-heading font-semibold hover:bg-gray-900">Home</a>
           <a href="#about" className="block py-3 px-4 text-white font-heading font-semibold hover:bg-gray-900">About</a>
           <a href="#streams" className="block py-3 px-4 text-white font-heading font-semibold hover:bg-gray-900">Streams</a>
-          <a href="#gallery" className="block py-3 px-4 text-white font-heading font-semibold hover:bg-gray-900">Gallery</a>
           <a href="#announcements" className="block py-3 px-4 text-white font-heading font-semibold hover:bg-gray-900">Announcements</a>
           <a href="#contact" className="block py-3 px-4 text-white font-heading font-semibold hover:bg-gray-900">Contact</a>
         </div>
