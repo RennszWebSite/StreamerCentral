@@ -20,6 +20,11 @@ export async function login(username: string, password: string): Promise<LoginRe
     const data = await response.json();
 
     if (!response.ok) {
+      console.error('Login failed:', {
+        status: response.status,
+        statusText: response.statusText,
+        message: data.message
+      });
       return {
         success: false,
         message: data.message || 'Login failed',
