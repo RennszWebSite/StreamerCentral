@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { apiRequest } from '@/lib/queryClient';
 import { StreamSetting } from '@shared/schema';
 import { useToast } from '@/hooks/use-toast';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient, UseQueryOptions } from '@tanstack/react-query';
 
 export default function StreamControl() {
   const [activeStream, setActiveStream] = useState<'rennsz' | 'rennszino'>('rennsz');
@@ -14,12 +14,16 @@ export default function StreamControl() {
   const queryClient = useQueryClient();
 
   // Fetch current stream setting
-  const { data, isLoading, error } = useQuery({
-    queryKey: ['/api/settings/stream'],
-    onSuccess: (data: StreamSetting) => {
+  const { data, isLoading, error } = useQuery<StreamSetting>({
+    queryKey: ['/api/settings/stream']
+  });
+  
+  // Set the active stream when data changes
+  useEffect(() => {
+    if (data) {
       setActiveStream(data.activeStream);
     }
-  });
+  }, [data]);
 
   // Update stream setting mutation
   const mutation = useMutation({
@@ -55,12 +59,12 @@ export default function StreamControl() {
 
   if (error) {
     return (
-      <Card>
+      <Card className="bg-black border border-gold/30 text-white">
         <CardHeader>
-          <CardTitle>Stream Control</CardTitle>
+          <CardTitle className="text-gold">Stream Control</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-destructive">
+          <div className="text-red-400">
             Error loading stream settings. Please try again.
           </div>
         </CardContent>
@@ -69,10 +73,10 @@ export default function StreamControl() {
   }
 
   return (
-    <Card>
+    <Card className="bg-black border border-gold/30 text-white">
       <CardHeader>
-        <CardTitle>Live Stream Control</CardTitle>
-        <CardDescription>
+        <CardTitle className="text-gold">Live Stream Control</CardTitle>
+        <CardDescription className="text-gold-light">
           Choose which stream should be displayed in the hero section
         </CardDescription>
       </CardHeader>
@@ -83,27 +87,27 @@ export default function StreamControl() {
             onValueChange={(value) => handleStreamChange(value as 'rennsz' | 'rennszino')}
             className="grid grid-cols-1 md:grid-cols-2 gap-6"
           >
-            <div className="border rounded-lg p-4 space-y-2">
+            <div className="border border-gold/20 bg-black/30 rounded-lg p-4 space-y-2 hover:border-gold/50 transition-colors">
               <div className="flex items-center space-x-2">
-                <RadioGroupItem value="rennsz" id="rennsz" />
-                <Label htmlFor="rennsz" className="font-semibold text-lg">IRL Travel Stream</Label>
+                <RadioGroupItem value="rennsz" id="rennsz" className="text-gold border-gold" />
+                <Label htmlFor="rennsz" className="font-semibold text-lg text-gold">IRL Travel Stream</Label>
               </div>
               <div className="pl-6">
-                <p className="text-sm text-muted-foreground mb-1">Channel: RENNSZ</p>
-                <p className="text-sm text-muted-foreground mb-1">URL: https://www.twitch.tv/rennsz</p>
-                <p className="text-sm text-muted-foreground">Focus on travel and exploration content</p>
+                <p className="text-sm text-gold-light mb-1">Channel: RENNSZ</p>
+                <p className="text-sm text-gold-light mb-1">URL: https://www.twitch.tv/rennsz</p>
+                <p className="text-sm text-gold-light">Focus on travel and exploration content</p>
               </div>
             </div>
             
-            <div className="border rounded-lg p-4 space-y-2">
+            <div className="border border-gold/20 bg-black/30 rounded-lg p-4 space-y-2 hover:border-gold/50 transition-colors">
               <div className="flex items-center space-x-2">
-                <RadioGroupItem value="rennszino" id="rennszino" />
-                <Label htmlFor="rennszino" className="font-semibold text-lg">Gaming Stream</Label>
+                <RadioGroupItem value="rennszino" id="rennszino" className="text-gold border-gold" />
+                <Label htmlFor="rennszino" className="font-semibold text-lg text-gold">Gaming Stream</Label>
               </div>
               <div className="pl-6">
-                <p className="text-sm text-muted-foreground mb-1">Channel: RENNSZINO</p>
-                <p className="text-sm text-muted-foreground mb-1">URL: https://www.twitch.tv/rennszino</p>
-                <p className="text-sm text-muted-foreground">Gaming and relaxed conversation content</p>
+                <p className="text-sm text-gold-light mb-1">Channel: RENNSZINO</p>
+                <p className="text-sm text-gold-light mb-1">URL: https://www.twitch.tv/rennszino</p>
+                <p className="text-sm text-gold-light">Gaming and relaxed conversation content</p>
               </div>
             </div>
           </RadioGroup>
@@ -111,7 +115,7 @@ export default function StreamControl() {
           <Button 
             onClick={saveStreamSetting}
             disabled={isLoading || mutation.isPending}
-            className="w-full md:w-auto"
+            className="bg-gold text-black hover:bg-gold/90 w-full md:w-auto"
           >
             {mutation.isPending ? "Updating..." : "Update Stream"}
           </Button>

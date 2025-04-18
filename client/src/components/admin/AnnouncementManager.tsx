@@ -112,33 +112,35 @@ export default function AnnouncementManager() {
 
   return (
     <div className="space-y-8">
-      <Card>
+      <Card className="bg-black border border-gold/30 text-white">
         <CardHeader>
-          <CardTitle>Add New Announcement</CardTitle>
-          <CardDescription>
+          <CardTitle className="text-gold">Add New Announcement</CardTitle>
+          <CardDescription className="text-gold-light">
             Create a new announcement to display on the website
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="title">Title</Label>
+              <Label htmlFor="title" className="text-gold">Title</Label>
               <Input
                 id="title"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="Enter announcement title"
+                className="bg-black border-gold/30 text-white focus:border-gold"
               />
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="content">Content</Label>
+              <Label htmlFor="content" className="text-gold">Content</Label>
               <Textarea
                 id="content"
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
                 placeholder="Enter announcement content"
                 rows={4}
+                className="bg-black border-gold/30 text-white focus:border-gold"
               />
             </div>
             
@@ -147,14 +149,15 @@ export default function AnnouncementManager() {
                 id="featured"
                 checked={isFeatured}
                 onCheckedChange={(checked) => setIsFeatured(checked === true)}
+                className="border-gold/50 data-[state=checked]:bg-gold data-[state=checked]:text-black"
               />
-              <Label htmlFor="featured">Feature this announcement</Label>
+              <Label htmlFor="featured" className="text-gold-light">Feature this announcement</Label>
             </div>
             
             <Button 
               type="submit" 
               disabled={addMutation.isPending}
-              className="w-full md:w-auto"
+              className="bg-gold text-black hover:bg-gold/90 w-full md:w-auto"
             >
               {addMutation.isPending ? "Creating..." : "Create Announcement"}
             </Button>
@@ -162,36 +165,36 @@ export default function AnnouncementManager() {
         </CardContent>
       </Card>
       
-      <Card>
+      <Card className="bg-black border border-gold/30 text-white">
         <CardHeader>
-          <CardTitle>Manage Announcements</CardTitle>
-          <CardDescription>
+          <CardTitle className="text-gold">Manage Announcements</CardTitle>
+          <CardDescription className="text-gold-light">
             View and delete existing announcements
           </CardDescription>
         </CardHeader>
         <CardContent>
           {isLoading ? (
-            <p className="text-center py-4">Loading announcements...</p>
+            <p className="text-center py-4 text-gold-light">Loading announcements...</p>
           ) : announcements.length === 0 ? (
-            <p className="text-center py-4">No announcements yet.</p>
+            <p className="text-center py-4 text-gold-light">No announcements yet.</p>
           ) : (
             <div className="space-y-4">
               {announcements.map((announcement) => (
                 <div 
                   key={announcement.id} 
-                  className="border rounded-lg p-4 flex justify-between items-start"
+                  className="border border-gold/20 bg-black/30 rounded-lg p-4 flex justify-between items-start hover:border-gold/50 transition-colors"
                 >
                   <div>
                     <div className="flex items-center gap-2">
-                      <h3 className="font-heading font-semibold">{announcement.title}</h3>
+                      <h3 className="font-heading font-semibold text-gold">{announcement.title}</h3>
                       {announcement.isFeatured && (
-                        <span className="bg-accent text-primary text-xs px-2 py-0.5 rounded-full font-heading font-semibold">
+                        <span className="bg-gold/20 text-gold text-xs px-2 py-0.5 rounded-full font-heading font-semibold border border-gold/30">
                           Featured
                         </span>
                       )}
                     </div>
-                    <p className="text-sm text-gray-600 mt-1">{announcement.content}</p>
-                    <div className="text-xs text-gray-500 mt-1">
+                    <p className="text-sm text-white mt-1">{announcement.content}</p>
+                    <div className="text-xs text-gold-light mt-1">
                       Posted on {format(new Date(announcement.date), 'MMMM d, yyyy')}
                     </div>
                   </div>
@@ -201,23 +204,23 @@ export default function AnnouncementManager() {
                         variant="ghost" 
                         size="icon" 
                         onClick={() => confirmDelete(announcement.id)}
-                        className="text-gray-400 hover:text-destructive"
+                        className="text-gold/50 hover:text-red-400 hover:bg-transparent"
                       >
                         <Trash2 className="h-5 w-5" />
                       </Button>
                     </AlertDialogTrigger>
-                    <AlertDialogContent>
+                    <AlertDialogContent className="bg-black border border-gold/30 text-white">
                       <AlertDialogHeader>
-                        <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                        <AlertDialogDescription>
+                        <AlertDialogTitle className="text-gold">Are you sure?</AlertDialogTitle>
+                        <AlertDialogDescription className="text-gold-light">
                           This will permanently delete the announcement. This action cannot be undone.
                         </AlertDialogDescription>
                       </AlertDialogHeader>
                       <AlertDialogFooter>
-                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogCancel className="bg-black border border-gold/50 text-gold hover:bg-gold hover:text-black">Cancel</AlertDialogCancel>
                         <AlertDialogAction 
                           onClick={handleDelete}
-                          className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                          className="bg-black border border-red-800/50 text-red-400 hover:bg-red-950/30"
                         >
                           Delete
                         </AlertDialogAction>
