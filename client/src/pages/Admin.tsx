@@ -1,4 +1,5 @@
-import { useEffect } from 'react';
+
+import { useEffect, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useLocation } from 'wouter';
 import { useToast } from '@/hooks/use-toast';
@@ -7,7 +8,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import StreamControl from '../components/admin/StreamControl';
 import AnnouncementManager from '../components/admin/AnnouncementManager';
 import ThemeSettings from '../components/admin/ThemeSettings';
-import { useToast } from '@/hooks/use-toast';
 
 export default function Admin() {
   const [, setLocation] = useLocation();
@@ -51,8 +51,6 @@ export default function Admin() {
       </div>
     );
   }
-
-  if (!isAdmin && !showPasswordPrompt) {
 
   const handleLogout = () => {
     setLocation('/');
